@@ -1,15 +1,21 @@
-import axios from 'axios';
+const api = {
+  async get(url) {
+    try {
+      const response = await fetch(`${'https://jsonplaceholder.typicode.com'}/${url}`);
+      return response.json();
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  },
+};
 
-const api = axios.create({
-  baseURL: 'https://jsonplaceholder.typicode.com',
-}); 
-
-
+export { api };
 const getDummyData = async () => {
   try {
-    const response = await api.get('/posts');
-    const data = response.data.slice(0, 6); // Get the first 6 posts
-    const pieData = data.map((post, index) => ({
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+    const data = await response.json();
+    const pieData = data.slice(0, 6).map((post, index) => ({
       name: `Month ${index + 1}`,
       value: post.id * 100, // Assign a dummy value
     }));
